@@ -8,6 +8,11 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+/**
+ * @author hovanvydut
+ * @created 5/25/21
+ */
+
 @Getter
 @Setter
 @Accessors(chain = true)

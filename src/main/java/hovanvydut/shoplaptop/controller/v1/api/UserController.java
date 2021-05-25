@@ -30,7 +30,8 @@ public class UserController {
 
         if (userDtoOpt.isPresent()) {
             System.out.println(userDtoOpt.get());
-            Response<UserDto> response = Response.OK();
+            Response<UserDto> response;
+            response = Response.OK();
             response.setPayload(userDtoOpt.get());
             return response;
         } else {
