@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 
 /**
  * @author hovanvydut
- * @created 5/25/21
+ * Created on 5/25/21
  */
 
 @Mapper()
@@ -18,6 +18,5 @@ public interface RoleMapper {
 
     Role toRole(RoleDto roleDto);
 
-    @InheritInverseConfiguration
     RoleDto fromRole(Role role);
 }

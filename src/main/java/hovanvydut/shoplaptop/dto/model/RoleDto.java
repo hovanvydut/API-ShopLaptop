@@ -8,9 +8,11 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
+import java.util.Objects;
+
 /**
  * @author hovanvydut
- * @created 5/25/21
+ * Created on 5/25/21
  */
 
 @Getter
@@ -26,4 +28,16 @@ public class RoleDto {
     private String name;
     private String description;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RoleDto roleDto = (RoleDto) o;
+        return id == roleDto.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
