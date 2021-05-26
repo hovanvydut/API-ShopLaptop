@@ -77,12 +77,6 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${org.mapstruct.version}</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>${org.mapstruct.version}</version>
         </dependency>
 
     </dependencies>
@@ -115,10 +109,20 @@
                             <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                    <showWarnings>true</showWarnings>
                     <compilerArgs>
-                        <compilerArg>
+                        <arg>
+                            -Amapstruct.suppressGeneratorTimestamp=true
+                        </arg>
+                        <arg>
+                            -Amapstruct.suppressGeneratorVersionInfoComment=true
+                        </arg>
+                        <arg>
+                            -Amapstruct.verbose=true
+                        </arg>
+                        <arg>
                             -Amapstruct.defaultComponentModel=spring
-                        </compilerArg>
+                        </arg>
                     </compilerArgs>
                 </configuration>
             </plugin>

@@ -32,7 +32,8 @@ public class RoleServiceImpl implements RoleService {
         Set<RoleDto> list = new HashSet<>();
 
         while (it.hasNext()) {
-            list.add(RoleMapper.MAPPER.fromRole(it.next()));
+            Role role = it.next();
+            list.add(RoleMapper.MAPPER.fromRole(role));
         }
 
         return list;
