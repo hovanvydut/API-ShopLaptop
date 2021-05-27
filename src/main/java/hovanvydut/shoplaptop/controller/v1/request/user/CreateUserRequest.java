@@ -1,4 +1,4 @@
-package hovanvydut.shoplaptop.controller.v1.request;
+package hovanvydut.shoplaptop.controller.v1.request.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -6,16 +6,21 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
-public class CreateUserReq {
+public class CreateUserRequest {
 
     @Email(message = "Email is invalid")
     private String email;
@@ -29,4 +34,9 @@ public class CreateUserReq {
     @Size(min = 1, max = 45)
     private String lastName;
 
+    private String photos;
+
+    private boolean enabled;
+
+    private Set<Integer> roles = new HashSet<>();
 }

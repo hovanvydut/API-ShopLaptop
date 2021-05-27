@@ -1,6 +1,5 @@
-package hovanvydut.shoplaptop.dto.mapper;
+package hovanvydut.shoplaptop.dto.role;
 
-import hovanvydut.shoplaptop.dto.model.RoleDto;
 import hovanvydut.shoplaptop.model.Role;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -18,6 +17,9 @@ public interface RoleMapper {
 
     Role toRole(RoleDto roleDto);
 
-    @InheritInverseConfiguration
+    Role toRole(CreateRoleDto createRoleDto);
+
+    Role toRole(UpdateRoleDto updateRoleDto);
+
     RoleDto fromRole(Role role);
 }

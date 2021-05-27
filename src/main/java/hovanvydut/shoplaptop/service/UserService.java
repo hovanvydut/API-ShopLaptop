@@ -1,16 +1,27 @@
 package hovanvydut.shoplaptop.service;
 
-import hovanvydut.shoplaptop.dto.model.UserDto;
+import hovanvydut.shoplaptop.dto.user.CreateUserDto;
+import hovanvydut.shoplaptop.dto.user.UpdateUserDto;
+import hovanvydut.shoplaptop.dto.user.UserDto;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
+
+/**
+ * @author hovanvydut
+ * Created on 5/26/21
+ */
 
 public interface UserService {
-    List<UserDto> getAllUsers();
 
-    Optional<UserDto> getUserById(int userId);
+    public List<UserDto> getAllUser();
 
-    boolean deleteUserById(int userId);
+    public  UserDto getUserById(int id);
 
-    UserDto createNewUser(UserDto userDto) throws Exception;
+    public UserDto createUser(@Valid CreateUserDto userDto);
+
+    public UserDto updateUser(@Valid UpdateUserDto updateUserDto, int id);
+
+    public void deleteUser(int id);
+
 }

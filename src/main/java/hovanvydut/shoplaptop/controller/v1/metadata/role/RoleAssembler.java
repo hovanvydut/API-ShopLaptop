@@ -1,11 +1,9 @@
-package hovanvydut.shoplaptop.controller.v1.metadata;
+package hovanvydut.shoplaptop.controller.v1.metadata.role;
 
 import hovanvydut.shoplaptop.controller.v1.api.RoleController;
-import hovanvydut.shoplaptop.dto.model.RoleDto;
+import hovanvydut.shoplaptop.controller.v1.mapper.RoleDtoMapper;
+import hovanvydut.shoplaptop.dto.role.RoleDto;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,7 @@
 package hovanvydut.shoplaptop.dto.mapper;
 
-import hovanvydut.shoplaptop.dto.model.RoleDto;
+import hovanvydut.shoplaptop.dto.role.RoleDto;
+import hovanvydut.shoplaptop.dto.role.RoleMapper;
 import hovanvydut.shoplaptop.model.Role;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

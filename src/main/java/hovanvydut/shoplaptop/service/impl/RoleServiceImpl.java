@@ -1,13 +1,17 @@
 package hovanvydut.shoplaptop.service.impl;
 
-import hovanvydut.shoplaptop.dto.mapper.RoleMapper;
-import hovanvydut.shoplaptop.dto.model.RoleDto;
+import hovanvydut.shoplaptop.dto.role.RoleMapper;
+import hovanvydut.shoplaptop.dto.role.RoleDto;
+import hovanvydut.shoplaptop.dto.role.CreateRoleDto;
+import hovanvydut.shoplaptop.dto.role.UpdateRoleDto;
 import hovanvydut.shoplaptop.exception.RoleNotFoundException;
 import hovanvydut.shoplaptop.model.Role;
 import hovanvydut.shoplaptop.repository.RoleRepository;
 import hovanvydut.shoplaptop.service.RoleService;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.*;
 import java.util.function.Function;
 
@@ -16,6 +20,7 @@ import java.util.function.Function;
  * Created on 5/25/21
  */
 
+@Validated
 @Service
 public class RoleServiceImpl implements RoleService {
 
@@ -47,22 +52,23 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleDto createRole(RoleDto roleDto) {
-        Role role = RoleMapper.MAPPER.toRole(roleDto);
+    public RoleDto createRole(@Valid CreateRoleDto createRoleDto) {
+        System.out.println("CreateRoleDto: " + createRoleDto);
+        Role role = RoleMapper.MAPPER.toRole(createRoleDto);
 
-        role = this.roleRepo.save(role);
+        Role newRole = this.roleRepo.save(role);
 
-        return RoleMapper.MAPPER.fromRole(role);
+        return RoleMapper.MAPPER.fromRole(newRole);
     }
 
     @Override
-    public RoleDto updateRole(RoleDto roleDto, int id) {
-        System.out.println(roleDto);
+    public RoleDto updateRole(@Valid UpdateRoleDto updateRoleDto, int id) {
+        System.out.println(updateRoleDto);
         Optional<Role> roleOpt = this.roleRepo.findById(id);
 
         Function<Role, RoleDto> saveRoleFunc = (role) -> {
-            role.setName(roleDto.getName());
-            role.setDescription(roleDto.getDescription());
+            role.setName(updateRoleDto.getName());
+            role.setDescription(updateRoleDto.getDescription());
 
             this.roleRepo.save(role);
 

@@ -1,4 +1,4 @@
-package hovanvydut.shoplaptop.dto.model;
+package hovanvydut.shoplaptop.dto.role;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
