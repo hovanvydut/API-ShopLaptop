@@ -41,4 +41,6 @@ public abstract class UserMapper {
     }
 
     public abstract UserDto userToUserDto(User user);
+
+    //public abstract UpdateUserDto toUpdateUserDto(UserDto userDto);
 }
