@@ -1,6 +1,7 @@
 package hovanvydut.shoplaptop.model;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -9,6 +10,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 @ToString
 @Entity
 @Table(name = "role")

@@ -1,12 +1,12 @@
 package hovanvydut.shoplaptop.controller.v1.api;
 
-import hovanvydut.shoplaptop.controller.v1.metadata.RoleAssembler;
-import hovanvydut.shoplaptop.controller.v1.metadata.RoleDtoMapper;
-import hovanvydut.shoplaptop.controller.v1.metadata.RoleMetadata;
-import hovanvydut.shoplaptop.controller.v1.request.CreateRoleRequest;
-import hovanvydut.shoplaptop.controller.v1.request.UpdateRoleRequest;
-import hovanvydut.shoplaptop.controller.v1.response.Response;
-import hovanvydut.shoplaptop.dto.model.RoleDto;
+import hovanvydut.shoplaptop.controller.v1.metadata.role.RoleAssembler;
+import hovanvydut.shoplaptop.controller.v1.mapper.RoleDtoMapper;
+import hovanvydut.shoplaptop.controller.v1.metadata.role.RoleMetadata;
+import hovanvydut.shoplaptop.controller.v1.request.role.CreateRoleRequest;
+import hovanvydut.shoplaptop.controller.v1.request.role.UpdateRoleRequest;
+import hovanvydut.shoplaptop.dto.role.CreateRoleDto;
+import hovanvydut.shoplaptop.dto.role.RoleDto;
 import hovanvydut.shoplaptop.service.RoleService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,6 @@ import java.util.Set;
 public class RoleController {
 
     private final RoleService roleService;
-
 
     private final RoleAssembler roleAssembler;
 
@@ -57,9 +56,11 @@ public class RoleController {
 
     @PostMapping()
     public ResponseEntity<String> createRole(@Valid @RequestBody CreateRoleRequest createRoleRequest) {
-        RoleDto newRoleDto = this.roleService.createRole(RoleDtoMapper.MAPPER.toRoleDto(createRoleRequest));
+        CreateRoleDto createRoleDto = RoleDtoMapper.MAPPER.toRoleDto(createRoleRequest);
 
+        RoleDto newRoleDto = this.roleService.createRole(createRoleDto);
         URI newUri = linkTo(methodOn(RoleController.class).getOne(newRoleDto.getId())).toUri();
+
         return ResponseEntity.created(newUri).build();
     }
 
@@ -74,6 +75,7 @@ public class RoleController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRole(@PathVariable Integer id) {
         this.roleService.deleteRole(id);
+
         return ResponseEntity.noContent().build();
     }
 }

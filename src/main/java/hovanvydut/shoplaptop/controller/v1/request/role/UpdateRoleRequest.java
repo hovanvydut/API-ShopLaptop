@@ -1,4 +1,4 @@
-package hovanvydut.shoplaptop.controller.v1.request;
+package hovanvydut.shoplaptop.controller.v1.request.role;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -18,7 +18,7 @@ import javax.validation.constraints.NotEmpty;
 @Accessors(chain = true)
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CreateRoleRequest {
+public class UpdateRoleRequest {
 
     @NotEmpty
     private String name;

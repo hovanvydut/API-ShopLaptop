@@ -1,70 +1,76 @@
 package hovanvydut.shoplaptop.controller.v1.api;
 
-import hovanvydut.shoplaptop.controller.v1.request.CreateUserReq;
-import hovanvydut.shoplaptop.dto.model.UserDto;
-import hovanvydut.shoplaptop.controller.v1.response.Response;
+import hovanvydut.shoplaptop.controller.v1.mapper.UserDtoMapper;
+import hovanvydut.shoplaptop.controller.v1.metadata.user.UserAssembler;
+import hovanvydut.shoplaptop.controller.v1.metadata.user.UserMetadata;
+import hovanvydut.shoplaptop.controller.v1.request.user.CreateUserRequest;
+import hovanvydut.shoplaptop.controller.v1.request.user.UpdateUserRequest;
+import hovanvydut.shoplaptop.dto.user.CreateUserDto;
+import hovanvydut.shoplaptop.dto.user.UpdateUserDto;
+import hovanvydut.shoplaptop.dto.user.UserDto;
 import hovanvydut.shoplaptop.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
+
+/**
+ * @author hovanvydut
+ * Created on 5/27/21
+ */
 
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final UserAssembler userAssembler;
+
+    public UserController(UserService userService, UserAssembler userAssembler) {
+        this.userService = userService;
+        this.userAssembler = userAssembler;
+    }
 
     @GetMapping()
-    public List<UserDto> getAllUsers() {
-        return this.userService.getAllUsers();
+    public ResponseEntity<CollectionModel<UserMetadata>> getAllUser() {
+        List<UserDto> list = this.userService.getAllUser();
+        CollectionModel<UserMetadata> metaCollection = this.userAssembler.toCollectionModel(list);
+
+        return ResponseEntity.ok(metaCollection);
     }
 
     @GetMapping("/{id}")
-    public Response<UserDto> getUserById(@PathVariable("id") int userId) {
-        System.out.println("xxx" + userId);
-        Optional<UserDto> userDtoOpt = this.userService.getUserById(userId);
+    public ResponseEntity<UserMetadata> getOne(@PathVariable("id") int id) {
+        UserDto userDto = this.userService.getUserById(id);
 
-        if (userDtoOpt.isPresent()) {
-            System.out.println(userDtoOpt.get());
-            Response<UserDto> response;
-            response = Response.OK();
-            response.setPayload(userDtoOpt.get());
-            return response;
-        } else {
-            return Response.OK();
-        }
+        return ResponseEntity.ok(this.userAssembler.toModel(userDto));
     }
 
     @PostMapping()
-    public Response<UserDto> createNewUser(@Valid @RequestBody CreateUserReq createUserReq) {
-        UserDto createUserDto = new UserDto().setEmail(createUserReq.getEmail())
-                                            .setPassword(createUserReq.getPassword())
-                                            .setFirstName(createUserReq.getFirstName())
-                                            .setLastName(createUserReq.getLastName());
-        UserDto savedUserDto = null;
-        try {
-            savedUserDto = this.userService.createNewUser(createUserDto);
-        } catch (Exception e) {
-            return Response.NOT_FOUND();
-        }
+    public ResponseEntity<UserMetadata> createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
+        CreateUserDto createUserDto = UserDtoMapper.MAPPER.toCreateUserDto(createUserRequest);
+        UserDto savedUserDto = this.userService.createUser(createUserDto);
 
-        Response<UserDto> response = Response.OK();
-        response.setPayload(savedUserDto);
-        return response;
+        return ResponseEntity.ok(this.userAssembler.toModel(savedUserDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserMetadata> updateUser(@RequestBody UpdateUserRequest updateUserRequest,
+                                              @PathVariable("id") int id) {
+        UpdateUserDto updateUserDto = UserDtoMapper.MAPPER.toUpdateUserDto(updateUserRequest);
+        UserDto userDto = this.userService.updateUser(updateUserDto, id);
+
+        return ResponseEntity.ok(this.userAssembler.toModel(userDto));
     }
 
     @DeleteMapping("/{id}")
-    public Response<Object> deleteUserById(@PathVariable("id") int userId) {
-        boolean result = this.userService.deleteUserById(userId);
+    public ResponseEntity<String> deleteRole(@PathVariable("id") int id) {
+        this.userService.deleteUser(id);
 
-        if (result) {
-            return Response.OK();
-        } else {
-            return Response.NOT_FOUND();
-        }
+        return ResponseEntity.noContent().build();
     }
+
 }

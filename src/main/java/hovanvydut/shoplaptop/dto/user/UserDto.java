@@ -1,7 +1,8 @@
-package hovanvydut.shoplaptop.dto.model;
+package hovanvydut.shoplaptop.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import hovanvydut.shoplaptop.dto.role.RoleDto;
 import lombok.*;
 import lombok.experimental.Accessors;
 
