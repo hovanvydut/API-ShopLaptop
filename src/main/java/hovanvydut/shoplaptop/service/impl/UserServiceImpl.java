@@ -10,6 +10,7 @@ import hovanvydut.shoplaptop.model.User;
 import hovanvydut.shoplaptop.repository.UserRepository;
 import hovanvydut.shoplaptop.service.UserService;
 import hovanvydut.shoplaptop.util.FileUploadUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -33,8 +36,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepo;
 
-    public UserServiceImpl(UserRepository userRepo) {
+    private final PasswordEncoder myBcryptPasswordEncoder;
+
+    public UserServiceImpl(UserRepository userRepo,
+                           PasswordEncoder myBcryptPasswordEncoder) {
         this.userRepo = userRepo;
+        this.myBcryptPasswordEncoder = myBcryptPasswordEncoder;
     }
 
     @Override
@@ -67,8 +74,11 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = UserMapper.MAPPER.userDtotoUser(createUserDto);
+        user.setPassword(this.myBcryptPasswordEncoder.encode(user.getPassword()));
 
-        User savedUser = this.userRepo.save(user);
+        User savedUser;
+
+        savedUser = this.userRepo.save(user);
 
         return UserMapper.MAPPER.userToUserDto(savedUser);
     }
