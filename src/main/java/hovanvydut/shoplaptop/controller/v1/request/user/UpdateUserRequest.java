@@ -34,8 +34,6 @@ public class UpdateUserRequest {
     @Size(min = 1, max = 45)
     private String lastName;
 
-    private String photos;
-
     private boolean enabled;
 
     private Set<Integer> roles = new HashSet<>();

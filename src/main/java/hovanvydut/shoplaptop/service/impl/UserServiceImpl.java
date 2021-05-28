@@ -9,10 +9,17 @@ import hovanvydut.shoplaptop.model.Role;
 import hovanvydut.shoplaptop.model.User;
 import hovanvydut.shoplaptop.repository.UserRepository;
 import hovanvydut.shoplaptop.service.UserService;
+import hovanvydut.shoplaptop.util.FileUploadUtil;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,8 +36,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepo;
 
-    public UserServiceImpl(UserRepository userRepo) {
+    private final PasswordEncoder myBcryptPasswordEncoder;
+
+    public UserServiceImpl(UserRepository userRepo,
+                           PasswordEncoder myBcryptPasswordEncoder) {
         this.userRepo = userRepo;
+        this.myBcryptPasswordEncoder = myBcryptPasswordEncoder;
     }
 
     @Override
@@ -63,8 +74,11 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = UserMapper.MAPPER.userDtotoUser(createUserDto);
+        user.setPassword(this.myBcryptPasswordEncoder.encode(user.getPassword()));
 
-        User savedUser = this.userRepo.save(user);
+        User savedUser;
+
+        savedUser = this.userRepo.save(user);
 
         return UserMapper.MAPPER.userToUserDto(savedUser);
     }
@@ -97,6 +111,35 @@ public class UserServiceImpl implements UserService {
         User savedUser = this.userRepo.save(user);
 
         return UserMapper.MAPPER.userToUserDto(savedUser);
+    }
+
+    @Override
+    public String uploadPhotoForUser(int id, MultipartFile multipartFile) throws IOException {
+        Optional<User> userOpt = this.userRepo.findById(id);
+
+        User user = userOpt.orElseThrow(() -> new UserNotFoundException());
+
+        // size <= 500Kb
+        int maxSizeUploadFile = 500 * 1024;
+
+        if (!multipartFile.isEmpty()) {
+            if (multipartFile.getSize() > (maxSizeUploadFile)) {
+                throw new RuntimeException("Size file exceed 500Kb");
+            }
+
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            user.setPhotos(fileName);
+            String uploadDir = "src/main/resources/static/img/user-photos/" + id;
+
+            FileUploadUtil.cleanDir(uploadDir);
+            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
+            this.userRepo.save(user);
+
+            return "/assets/img/user-photos/" + id + "/" + fileName;
+        }
+
+        return null;
     }
 
     @Override
