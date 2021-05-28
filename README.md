@@ -8,7 +8,6 @@ Welcome to my page 😎. I'm hoping you find anything interesting you in my repo
 
 ***
 
-You must go to each folder (`adminLTE`, `blog`) to see fully detailed guide to setup project working correctly.
 
 ## 🎉 FEATURES
 
