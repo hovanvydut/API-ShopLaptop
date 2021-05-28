@@ -5,6 +5,7 @@ import hovanvydut.shoplaptop.dto.user.UpdateUserDto;
 import hovanvydut.shoplaptop.dto.user.UserDto;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -28,4 +29,9 @@ public interface UserService {
 
     public void deleteUser(int id);
 
+    void exportUserToPdf(HttpServletResponse response) throws IOException;
+
+    void exportUserToExcel(HttpServletResponse response) throws IOException;
+
+    void exportUserToCsv(HttpServletResponse response) throws IOException;
 }

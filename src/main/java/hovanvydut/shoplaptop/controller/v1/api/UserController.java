@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -52,6 +53,21 @@ public class UserController {
         UserDto userDto = this.userService.getUserById(id);
 
         return ResponseEntity.ok(this.userAssembler.toModel(userDto));
+    }
+
+    @GetMapping("/export/pdf")
+    public void exportUserToPdf(HttpServletResponse response) throws IOException {
+        this.userService.exportUserToPdf(response);
+    }
+
+    @GetMapping("/export/excel")
+    public void exportUserToExcel(HttpServletResponse response) throws IOException {
+        this.userService.exportUserToExcel(response);
+    }
+
+    @GetMapping("/export/csv")
+    public void exportUserToCsv(HttpServletResponse response) throws IOException {
+        this.userService.exportUserToCsv(response);
     }
 
     @PostMapping()

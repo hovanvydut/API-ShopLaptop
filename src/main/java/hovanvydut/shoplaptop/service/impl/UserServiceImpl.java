@@ -1,5 +1,8 @@
 package hovanvydut.shoplaptop.service.impl;
 
+import hovanvydut.shoplaptop.common.exporter.UserCsvExporter;
+import hovanvydut.shoplaptop.common.exporter.UserExcelExporter;
+import hovanvydut.shoplaptop.common.exporter.UserPdfExporter;
 import hovanvydut.shoplaptop.dto.user.CreateUserDto;
 import hovanvydut.shoplaptop.dto.user.UpdateUserDto;
 import hovanvydut.shoplaptop.dto.user.UserMapper;
@@ -16,6 +19,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -150,5 +154,29 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException();
         else
             this.userRepo.delete(userOpt.get());
+    }
+
+    @Override
+    public void exportUserToPdf(HttpServletResponse response) throws IOException {
+        List<User> listUsers = (List<User>)this.userRepo.findAll();
+        UserPdfExporter exporter = new UserPdfExporter();
+
+        exporter.export(listUsers, response);
+    }
+
+    @Override
+    public void exportUserToExcel(HttpServletResponse response) throws IOException {
+        List<User> listUsers = (List<User>)this.userRepo.findAll();
+        UserExcelExporter exporter = new UserExcelExporter();
+
+        exporter.export(listUsers, response);
+    }
+
+    @Override
+    public void exportUserToCsv(HttpServletResponse response) throws IOException {
+        List<User> listUsers = (List<User>)this.userRepo.findAll();
+        UserCsvExporter exporter = new UserCsvExporter();
+
+        exporter.export(listUsers, response);
     }
 }
