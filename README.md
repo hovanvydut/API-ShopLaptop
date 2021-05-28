@@ -13,8 +13,6 @@ Welcome to my page 😎. I'm hoping you find anything interesting you in my repo
 
 ***
 
-A personal blog help everyone who interesting sharing knowledges about coding, life, story, ... This page was born for you.
-
 ## 🪐 Technology
 
 ***
