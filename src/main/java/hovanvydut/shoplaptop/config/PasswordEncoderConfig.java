@@ -1,4 +1,4 @@
-package hovanvydut.shoplaptop.security;
+package hovanvydut.shoplaptop.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
