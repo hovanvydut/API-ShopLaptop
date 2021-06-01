@@ -3,6 +3,7 @@ package hovanvydut.shoplaptop.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
@@ -43,7 +44,7 @@ public class Category {
     @JoinColumn(name = "parent_id")
     private Category parent;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
     private Set<Category> children = new HashSet<>();
 
     public Category(int id) {
@@ -59,5 +60,16 @@ public class Category {
     public Category(String name, Category parent) {
         this(name);
         this.parent = parent;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", slug='" + slug + '\'' +
+                ", image='" + image + '\'' +
+                ", enabled=" + enabled +
+                '}';
     }
 }
