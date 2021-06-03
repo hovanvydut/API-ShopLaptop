@@ -5,8 +5,9 @@ import hovanvydut.shoplaptop.common.exporter.UserExcelExporter;
 import hovanvydut.shoplaptop.common.exporter.UserPdfExporter;
 import hovanvydut.shoplaptop.dto.user.CreateUserDto;
 import hovanvydut.shoplaptop.dto.user.UpdateUserDto;
-import hovanvydut.shoplaptop.dto.user.UserMapper;
 import hovanvydut.shoplaptop.dto.user.UserDto;
+import hovanvydut.shoplaptop.dto.user.UserMapper;
+import hovanvydut.shoplaptop.exception.ImageSizeLimitExceededException;
 import hovanvydut.shoplaptop.exception.UserNotFoundException;
 import hovanvydut.shoplaptop.model.Role;
 import hovanvydut.shoplaptop.model.User;
@@ -22,8 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -128,7 +127,7 @@ public class UserServiceImpl implements UserService {
 
         if (!multipartFile.isEmpty()) {
             if (multipartFile.getSize() > (maxSizeUploadFile)) {
-                throw new RuntimeException("Size file exceed 500Kb");
+                throw new ImageSizeLimitExceededException("Size file exceed 500Kb");
             }
 
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());

@@ -8,12 +8,9 @@ import hovanvydut.shoplaptop.controller.v1.request.user.UpdateUserRequest;
 import hovanvydut.shoplaptop.dto.user.CreateUserDto;
 import hovanvydut.shoplaptop.dto.user.UpdateUserDto;
 import hovanvydut.shoplaptop.dto.user.UserDto;
-import hovanvydut.shoplaptop.dto.user.UserMapper;
 import hovanvydut.shoplaptop.service.UserService;
-import hovanvydut.shoplaptop.util.FileUploadUtil;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

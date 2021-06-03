@@ -19,6 +19,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
     @Column(length = 128, nullable = false, unique = true)
@@ -33,10 +34,10 @@ public class User {
     @Column(name = "last_name", length = 45, nullable = false)
     private String lastName;
 
-    @Column(length = 64)
+    @Column(name = "photos", length = 64)
     private String photos;
 
-    @Column()
+    @Column(name = "enabled")
     private boolean enabled;
 
     @ManyToMany

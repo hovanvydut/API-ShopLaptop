@@ -1,7 +1,7 @@
 package hovanvydut.shoplaptop.controller.v1.api;
 
-import hovanvydut.shoplaptop.controller.v1.metadata.role.RoleAssembler;
 import hovanvydut.shoplaptop.controller.v1.mapper.RoleDtoMapper;
+import hovanvydut.shoplaptop.controller.v1.metadata.role.RoleAssembler;
 import hovanvydut.shoplaptop.controller.v1.metadata.role.RoleMetadata;
 import hovanvydut.shoplaptop.controller.v1.request.role.CreateRoleRequest;
 import hovanvydut.shoplaptop.controller.v1.request.role.UpdateRoleRequest;
@@ -12,12 +12,12 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Set;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * @author hovanvydut
