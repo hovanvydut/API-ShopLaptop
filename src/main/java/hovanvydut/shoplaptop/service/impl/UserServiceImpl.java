@@ -7,6 +7,7 @@ import hovanvydut.shoplaptop.dto.user.CreateUserDto;
 import hovanvydut.shoplaptop.dto.user.UpdateUserDto;
 import hovanvydut.shoplaptop.dto.user.UserMapper;
 import hovanvydut.shoplaptop.dto.user.UserDto;
+import hovanvydut.shoplaptop.exception.ImageSizeLimitExceededException;
 import hovanvydut.shoplaptop.exception.UserNotFoundException;
 import hovanvydut.shoplaptop.model.Role;
 import hovanvydut.shoplaptop.model.User;
@@ -128,7 +129,7 @@ public class UserServiceImpl implements UserService {
 
         if (!multipartFile.isEmpty()) {
             if (multipartFile.getSize() > (maxSizeUploadFile)) {
-                throw new RuntimeException("Size file exceed 500Kb");
+                throw new ImageSizeLimitExceededException("Size file exceed 500Kb");
             }
 
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());

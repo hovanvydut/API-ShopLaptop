@@ -13,6 +13,10 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface CategoryRepository extends PagingAndSortingRepository<Category, Integer> {
 
+    Category findByName(String name);
+
+    Category findBySlug(String slug);
+
     @Query("SELECT c FROM Category c WHERE c.name LIKE %?1%")
     public Page<Category> search(String keyword, Pageable pageable);
 

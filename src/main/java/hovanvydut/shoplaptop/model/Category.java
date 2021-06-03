@@ -62,6 +62,13 @@ public class Category {
         this.parent = parent;
     }
 
+    @Transient
+    public String getImagePath() {
+        if (this.id == null) return "/img/image-thumbnail.png";
+
+        return "/img/category/" + this.id + "/" + this.image;
+    }
+
     @Override
     public String toString() {
         return "Category{" +

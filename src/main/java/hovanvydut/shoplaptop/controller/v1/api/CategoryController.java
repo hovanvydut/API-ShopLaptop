@@ -1,18 +1,10 @@
 package hovanvydut.shoplaptop.controller.v1.api;
 
-import hovanvydut.shoplaptop.common.CategoryPageInfo;
-import hovanvydut.shoplaptop.controller.v1.mapper.CategoryDtoMapper;
 import hovanvydut.shoplaptop.controller.v1.metadata.category.CategoryAssembler;
 import hovanvydut.shoplaptop.controller.v1.metadata.category.CategoryMetadata;
-import hovanvydut.shoplaptop.controller.v1.request.category.CreateCategoryRequest;
 import hovanvydut.shoplaptop.dto.category.CategoryDto;
-import hovanvydut.shoplaptop.model.Category;
 import hovanvydut.shoplaptop.service.CategoryService;
-import io.swagger.annotations.ApiParam;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
-import java.util.List;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import java.util.Optional;
 
 /**
@@ -53,12 +44,13 @@ public class CategoryController {
     }
 
     @GetMapping()
-    public ResponseEntity<PagedModel<CategoryMetadata>> listByPage(@RequestParam(required = false) Optional<String> sortDir,
-                                                                   @RequestParam(required = false) Optional<String> keyword,
+    public ResponseEntity<PagedModel<CategoryMetadata>> listByPage(@RequestParam(required = false) Optional<String> keyword,
                                                                    @RequestParam(required = false) Optional<Integer> page,
-                                                                   @RequestParam(required = false) Optional<Integer> pageSize) {
+                                                                   @RequestParam(required = false) Optional<Integer> size,
+                                                                   @RequestParam(defaultValue = "id,desc") String[] sort) {
 
-        Page<CategoryDto> paged = this.categoryService.listByPage(page.orElse(1), pageSize.orElse(CATEGORIES_PER_PAGE), sortDir.orElse(null), keyword.orElse(null));
+        Page<CategoryDto> paged = this.categoryService
+                .listByPage(page.orElse(1), size.orElse(CATEGORIES_PER_PAGE), keyword.orElse(null), sort);
 
         PagedModel<CategoryMetadata> model = this.pagedResourcesAssembler.toModel(paged, categoryAssembler);
 
@@ -74,13 +66,29 @@ public class CategoryController {
     }
 
     @PostMapping()
-    public void createNewCategory(@Valid @RequestParam MultipartFile image,
-                                  @Length(min = 1, max = 128) @RequestParam String name,
-                                  @RequestParam boolean enabled,
-                                  @Min(1) @RequestParam int parentId) {
-        System.out.println(name);
-        System.out.println(enabled);
-        System.out.println(parentId);
+    public ResponseEntity<CategoryMetadata> createNewCategory(@Valid @RequestParam(required = false) MultipartFile image,
+                                                              @Pattern(regexp = "^\\w+(\\s\\w+)*$") @RequestParam String name,
+                                                              @RequestParam boolean enabled,
+                                                              @Pattern(regexp = "^\\w+(\\-\\w+)*$") @RequestParam String slug,
+                                                              @Positive @RequestParam(required = false) Integer parentId) {
+
+        CategoryDto categoryDto = this.categoryService.createNewCategory(name, slug, Optional.ofNullable(image), enabled, parentId);
+
+        return ResponseEntity.ok(this.categoryAssembler.toModel(categoryDto));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryMetadata> updateCategory(@PathVariable("id") int categoryId,
+                               @Valid @RequestParam(required = false) MultipartFile image,
+                               @Pattern(regexp = "^\\w+(\\s\\w+)*$") @RequestParam(required = false) String name,
+                               @RequestParam(required = false) boolean enabled,
+                               @Pattern(regexp = "^\\w+(\\-\\w+)*$") @RequestParam(required = false) String slug,
+                               @Positive @RequestParam(required = false) Integer parentId) {
+
+        CategoryDto categoryDto = this.categoryService.updateCategory(categoryId, Optional.ofNullable(name), Optional.ofNullable(slug),
+                Optional.ofNullable(image), Optional.ofNullable(enabled), parentId);
+
+        return ResponseEntity.ok(this.categoryAssembler.toModel(categoryDto));
     }
 
     // valid id is number
