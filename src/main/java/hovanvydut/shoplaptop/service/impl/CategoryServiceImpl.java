@@ -1,6 +1,5 @@
 package hovanvydut.shoplaptop.service.impl;
 
-import hovanvydut.shoplaptop.controller.v1.mapper.CategoryDtoMapper;
 import hovanvydut.shoplaptop.dto.category.CategoryDto;
 import hovanvydut.shoplaptop.dto.category.CategoryMapper;
 import hovanvydut.shoplaptop.exception.CategoryException;
@@ -10,21 +9,17 @@ import hovanvydut.shoplaptop.model.Category;
 import hovanvydut.shoplaptop.repository.CategoryRepository;
 import hovanvydut.shoplaptop.service.CategoryService;
 import hovanvydut.shoplaptop.util.FileUploadUtil;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.core.annotation.Order;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.text.html.Option;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 /**

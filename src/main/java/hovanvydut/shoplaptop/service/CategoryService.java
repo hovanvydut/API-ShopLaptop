@@ -1,15 +1,11 @@
 package hovanvydut.shoplaptop.service;
 
-import hovanvydut.shoplaptop.common.CategoryPageInfo;
 import hovanvydut.shoplaptop.dto.category.CategoryDto;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.text.html.Option;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
-import java.util.List;
 import java.util.Optional;
 
 /**

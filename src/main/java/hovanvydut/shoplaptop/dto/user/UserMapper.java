@@ -2,7 +2,6 @@ package hovanvydut.shoplaptop.dto.user;
 
 import hovanvydut.shoplaptop.model.Role;
 import hovanvydut.shoplaptop.model.User;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

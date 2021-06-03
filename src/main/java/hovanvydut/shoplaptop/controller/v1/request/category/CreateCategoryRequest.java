@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Min;
 import java.io.Serializable;
