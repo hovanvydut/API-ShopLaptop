@@ -50,7 +50,7 @@ public class CategoryController {
                                                                    @RequestParam(defaultValue = "id,desc") String[] sort) {
 
         Page<CategoryDto> paged = this.categoryService
-                .listByPage(page.orElse(1), size.orElse(CATEGORIES_PER_PAGE), keyword.orElse(null), sort);
+                .listByPage(page.orElse(1), size.orElse(CATEGORIES_PER_PAGE), keyword.orElse(""), sort);
 
         PagedModel<CategoryMetadata> model = this.pagedResourcesAssembler.toModel(paged, categoryAssembler);
 
