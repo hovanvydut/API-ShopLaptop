@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static hovanvydut.shoplaptop.util.PagingAndSortingUtil.processSort;
+
 /**
  * @author hovanvydut
  * Created on 6/1/21
@@ -37,32 +39,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
-    }
-
-    private Sort.Direction getSortDirection(String direction) {
-        if ("desc".equals(direction)) {
-            return Sort.Direction.DESC;
-        }
-        return Sort.Direction.ASC;
-    }
-
-
-    private Sort processSort(String[] sort) {
-        List<Sort.Order> orders = new ArrayList<>();
-
-        if (sort[0].contains(",")) {
-            // will sort more than 2 fields
-            // sortOrder="field, direction"
-            for (String sortOrder : sort) {
-                String[] _sort = sortOrder.split(",");
-                orders.add(new Sort.Order(getSortDirection(_sort[1]), _sort[0]));
-            }
-        } else {
-            // sort=[field, direction]
-            orders.add(new Sort.Order(getSortDirection(sort[1]), sort[0]));
-        }
-
-        return Sort.by(orders);
     }
 
     @Override
@@ -217,4 +193,6 @@ public class CategoryServiceImpl implements CategoryService {
 
         return CategoryMapper.MAPPER.fromCategory(savedCategory);
     }
+
+
 }

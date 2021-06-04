@@ -43,4 +43,7 @@ public class Brand {
     )
     private Set<Category> categories = new HashSet<>();
 
+    public void addCategory(Category category) {
+        this.categories.add(category);
+    }
 }
