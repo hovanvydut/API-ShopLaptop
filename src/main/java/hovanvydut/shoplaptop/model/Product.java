@@ -34,7 +34,7 @@ public class Product {
     @Column(name = "slug", unique = true, length = 256, nullable = false)
     private String slug;
 
-    @Column(name = "short_description", length = 512, nullable = false)
+    @Column(name = "short_description", length = 1024, nullable = false)
     private String shortDescription;
 
     @Column(name = "full_description", length = 4096, nullable = false)
