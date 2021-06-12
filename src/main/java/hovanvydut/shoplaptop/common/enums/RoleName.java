@@ -6,11 +6,11 @@ package hovanvydut.shoplaptop.common.enums;
  */
 
 public enum RoleName {
-    ADMIN("Admin"),
-    EDITOR("Editor"),
-    SALESPERSON("Salesperson"),
-    SHIPPER("Shipper"),
-    ASSISTANCE("Assistance");
+    ADMIN("ROLE_Admin"),
+    EDITOR("ROLE_Editor"),
+    SALESPERSON("ROLE_Salesperson"),
+    SHIPPER("ROLE_Shipper"),
+    ASSISTANCE("ROLE_Assistance");
 
     private final String name;
 

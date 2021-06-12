@@ -37,7 +37,7 @@ public class BrandServiceImpl implements BrandService {
 
     private static final int MAX_SIZE = 500 * 1024;
     private static final int CATEGORIES_PER_PAGE = 2;
-    private static final String baseUploadDir = "src/main/resources/static/img/brand/";
+    private static final String baseUploadDir = "src/main/resources/static/img/brand-logos/";
 
 
     private final BrandRepository brandRepository;

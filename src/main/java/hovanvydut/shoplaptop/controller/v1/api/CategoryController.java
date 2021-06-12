@@ -17,6 +17,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import java.util.Optional;
 
+import static hovanvydut.shoplaptop.common.constant.PaginationConstant.CATEGORIES_PER_PAGE;
+
 /**
  * @author hovanvydut
  * Created on 6/1/21
@@ -26,8 +28,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
-
-    private final int CATEGORIES_PER_PAGE = 2;
 
     private final CategoryService categoryService;
 
@@ -47,7 +47,7 @@ public class CategoryController {
     public ResponseEntity<PagedModel<CategoryMetadata>> listByPage(@RequestParam(required = false) Optional<String> keyword,
                                                                    @RequestParam(required = false) Optional<Integer> page,
                                                                    @RequestParam(required = false) Optional<Integer> size,
-                                                                   @RequestParam(defaultValue = "id,desc") String[] sort) {
+                                                                   @RequestParam(required = false, defaultValue = "id,asc") String[] sort) {
 
         Page<CategoryDto> paged = this.categoryService
                 .listByPage(page.orElse(1), size.orElse(CATEGORIES_PER_PAGE), keyword.orElse(""), sort);

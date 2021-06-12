@@ -22,9 +22,15 @@ public class CategoryAssembler implements RepresentationModelAssembler<CategoryD
     public CategoryMetadata toModel(CategoryDto entity) {
 
         CategoryMetadata categoryMetadata = CategoryDtoMapper.MAPPER.fromDto(entity);
-        categoryMetadata.add(linkTo(methodOn(CategoryController.class).getOne(entity.getId())).withSelfRel());
+        attachLink(categoryMetadata);
 
         return categoryMetadata;
+    }
+
+    public static void attachLink(CategoryMetadata categoryMetadata) {
+        if (categoryMetadata == null) return;
+        categoryMetadata.add(linkTo(methodOn(CategoryController.class).getOne(categoryMetadata.getId())).withSelfRel());
+        categoryMetadata.add(linkTo(methodOn(CategoryController.class).listByPage(null, null, null, null)).withRel("all"));
     }
 
     @Override
