@@ -52,7 +52,7 @@ public class BrandController {
     public ResponseEntity<PagedModel<BrandMetadata>> listByPage(@RequestParam(required = false) Optional<String> keyword,
                                                                 @RequestParam(required = false) Optional<Integer> page,
                                                                 @RequestParam(required = false) Optional<Integer> size,
-                                                                @RequestParam(defaultValue = "id,asc") String[] sort) {
+                                                                @RequestParam(required = false, defaultValue = "id,asc") String[] sort) {
 
         Page<BrandDto> pageDto = this.brandService.listByPage(page.orElse(1), size.orElse(BRAND_PER_PAGE), keyword.orElse(""), sort);
         PagedModel<BrandMetadata> pagedModel = this.pagedResourcesAssembler.toModel(pageDto, this.brandAssembler);

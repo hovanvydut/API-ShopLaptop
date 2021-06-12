@@ -1,8 +1,10 @@
-package hovanvydut.shoplaptop.dto.Product;
+package hovanvydut.shoplaptop.dto.product;
 
 import hovanvydut.shoplaptop.model.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * @author hovanvydut
@@ -16,4 +18,5 @@ public interface ProductMapper {
 
     ProductDto fromProduct(Product product);
 
+    List<ProductDto> fromProduct(List<Product> productList);
 }

@@ -24,10 +24,17 @@ public class BrandAssembler implements RepresentationModelAssembler<BrandDto, Br
     public BrandMetadata toModel(BrandDto entity) {
         BrandMetadata brandMetadata = BrandDtoMapper.MAPPER.fromDto(entity);
 
-        return brandMetadata.add(
-                linkTo(methodOn(BrandController.class).getOne(entity.getId())).withSelfRel(),
-                linkTo(methodOn(BrandController.class).listByPage(Optional.empty(), Optional.empty(), Optional.empty(), null)).withRel("list")
-        );
+        attachLink(brandMetadata);
+
+        return brandMetadata;
+    }
+
+    public static void attachLink(BrandMetadata brandMetadata) {
+        if (brandMetadata == null) return;
+
+        brandMetadata.add(
+                linkTo(methodOn(BrandController.class).getOne(brandMetadata.getId())).withSelfRel(),
+                linkTo(methodOn(BrandController.class).listByPage(null, null, null, null)).withRel("all"));
     }
 
     @Override

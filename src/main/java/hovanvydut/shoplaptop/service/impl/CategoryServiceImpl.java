@@ -18,10 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static hovanvydut.shoplaptop.common.constant.PaginationConstant.CATEGORIES_PER_PAGE;
 import static hovanvydut.shoplaptop.util.PagingAndSortingUtil.processSort;
 
 /**
@@ -32,8 +32,6 @@ import static hovanvydut.shoplaptop.util.PagingAndSortingUtil.processSort;
 @Validated
 @Service
 public class CategoryServiceImpl implements CategoryService {
-
-    private final int CATEGORIES_PER_PAGE = 2;
 
     private final CategoryRepository categoryRepository;
 
