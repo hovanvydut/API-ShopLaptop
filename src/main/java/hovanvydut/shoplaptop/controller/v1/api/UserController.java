@@ -5,13 +5,17 @@ import hovanvydut.shoplaptop.controller.v1.metadata.user.UserAssembler;
 import hovanvydut.shoplaptop.controller.v1.metadata.user.UserMetadata;
 import hovanvydut.shoplaptop.controller.v1.request.user.CreateUserRequest;
 import hovanvydut.shoplaptop.controller.v1.request.user.UpdateUserRequest;
+import hovanvydut.shoplaptop.dto.brand.BrandDto;
 import hovanvydut.shoplaptop.dto.user.CreateUserDto;
 import hovanvydut.shoplaptop.dto.user.UpdateUserDto;
 import hovanvydut.shoplaptop.dto.user.UserDto;
 import hovanvydut.shoplaptop.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import static hovanvydut.shoplaptop.common.constant.PaginationConstant.*;
 
 /**
  * @author hovanvydut
@@ -32,17 +38,25 @@ public class UserController {
 
     private final UserService userService;
     private final UserAssembler userAssembler;
+    private final PagedResourcesAssembler<UserDto> pagedResourcesAssembler;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    public UserController(UserService userService, UserAssembler userAssembler) {
+    public UserController(UserService userService,
+                          UserAssembler userAssembler,
+                          PagedResourcesAssembler<UserDto> pagedResourcesAssembler) {
         this.userService = userService;
         this.userAssembler = userAssembler;
+        this.pagedResourcesAssembler = pagedResourcesAssembler;
     }
 
     @GetMapping()
-    public ResponseEntity<CollectionModel<UserMetadata>> getAllUser() {
-        List<UserDto> list = this.userService.getAllUser();
-        CollectionModel<UserMetadata> metaCollection = this.userAssembler.toCollectionModel(list);
+    public ResponseEntity<PagedModel<UserMetadata>> getAllUser(@RequestParam(required = false) Optional<String> keyword,
+                                                                    @RequestParam(required = false) Optional<Integer> page,
+                                                                    @RequestParam(required = false) Optional<Integer> size,
+                                                                    @RequestParam(required = false, defaultValue = "id,asc") String[] sort) {
+
+        Page<UserDto> paged = this.userService.getAllUser(page.orElse(1), size.orElse(USERS_PER_PAGE), keyword.orElse(""), sort);
+        PagedModel<UserMetadata> metaCollection = this.pagedResourcesAssembler.toModel(paged, this.userAssembler);
 
         return ResponseEntity.ok(metaCollection);
     }

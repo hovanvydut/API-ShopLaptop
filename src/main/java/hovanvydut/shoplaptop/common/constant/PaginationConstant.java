@@ -10,5 +10,6 @@ public class PaginationConstant {
     public static final int CATEGORIES_PER_PAGE = 2;
     public static final int BRAND_PER_PAGE = 2;
     public static final int PRODUCTS_PER_PAGE = 5;
+    public static final int USERS_PER_PAGE = 5;
 
 }

@@ -3,6 +3,7 @@ package hovanvydut.shoplaptop.service;
 import hovanvydut.shoplaptop.dto.user.CreateUserDto;
 import hovanvydut.shoplaptop.dto.user.UpdateUserDto;
 import hovanvydut.shoplaptop.dto.user.UserDto;
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public interface UserService {
 
-    public List<UserDto> getAllUser();
+    public Page<UserDto> getAllUser(int page, int size, String keyword, String[] sort);
 
     public  UserDto getUserById(int id);
 

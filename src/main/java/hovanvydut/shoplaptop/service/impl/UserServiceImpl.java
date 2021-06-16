@@ -9,6 +9,7 @@ import hovanvydut.shoplaptop.dto.user.UserDto;
 import hovanvydut.shoplaptop.dto.user.UserMapper;
 import hovanvydut.shoplaptop.exception.ImageSizeLimitExceededException;
 import hovanvydut.shoplaptop.exception.UserNotFoundException;
+import hovanvydut.shoplaptop.model.Category;
 import hovanvydut.shoplaptop.model.Role;
 import hovanvydut.shoplaptop.model.User;
 import hovanvydut.shoplaptop.repository.UserRepository;
@@ -16,6 +17,7 @@ import hovanvydut.shoplaptop.service.UserService;
 import hovanvydut.shoplaptop.util.FileUploadUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -30,7 +32,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import static hovanvydut.shoplaptop.common.constant.PaginationConstant.CATEGORIES_PER_PAGE;
+import static hovanvydut.shoplaptop.common.constant.PaginationConstant.USERS_PER_PAGE;
 import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.USER_UPLOAD_DIR;
+import static hovanvydut.shoplaptop.util.PagingAndSortingUtil.processSort;
 
 /**
  * @author hovanvydut
@@ -42,7 +47,6 @@ import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.USER_UPL
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepo;
-
     private final PasswordEncoder myBcryptPasswordEncoder;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -53,15 +57,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUser() {
+    public Page<UserDto> getAllUser(int page, int size, String keyword, String[] sort) {
+
+        // set default value for
+        if (page <= 0) {
+            page = 1;
+        }
+
+        if (size <= 0) {
+            size = USERS_PER_PAGE;
+        }
+
+        Sort sortObj = processSort(sort);
+        Pageable pageable = PageRequest.of(page - 1, size, sortObj);
+
+        Page<User> pageUser = null;
+
+        if (keyword != null && keyword.isEmpty()) {
+            pageUser = this.userRepo.findAll(pageable);
+        } else {
+            pageUser = this.userRepo.search(keyword, pageable);
+        }
+
         List<UserDto> list = new ArrayList<>();
         Iterator<User> it = this.userRepo.findAll().iterator();
 
-        while (it.hasNext()) {
-            list.add(UserMapper.MAPPER.userToUserDto(it.next()));
-        }
+        List<User> userList = pageUser.getContent();
+        List<UserDto> userDtos = UserMapper.MAPPER.userToUserDto(userList);
 
-        return list;
+        return new PageImpl<>(userDtos, pageable, pageUser.getTotalElements());
     }
 
     @Override

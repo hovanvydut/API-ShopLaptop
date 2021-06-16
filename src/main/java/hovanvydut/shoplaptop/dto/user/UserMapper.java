@@ -5,6 +5,8 @@ import hovanvydut.shoplaptop.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author hovanvydut
  * Created on 5/26/21
@@ -40,6 +42,7 @@ public abstract class UserMapper {
     }
 
     public abstract UserDto userToUserDto(User user);
+    public abstract List<UserDto> userToUserDto(List<User> list);
 
     //public abstract UpdateUserDto toUpdateUserDto(UserDto userDto);
 }
