@@ -1,6 +1,8 @@
 package hovanvydut.shoplaptop.controller.v1.api;
 
 import hovanvydut.shoplaptop.security.JwtTokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.security.RolesAllowed;
 
 /**
  * @author hovanvydut
@@ -27,6 +27,7 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationController.class);
 
     public AuthenticationController(AuthenticationManager authenticationManager,
                                     JwtTokenUtil jwtTokenUtil) {
@@ -58,6 +59,12 @@ public class AuthenticationController {
     @GetMapping("/test")
     public String testAuthen() {
         return "abc";
+    }
+
+    @GetMapping("/check-healthy")
+    public String checkHealthy() {
+        LOGGER.info("Checked healthy");
+        return "Fine!";
     }
 
 }

@@ -1,5 +1,6 @@
 package hovanvydut.shoplaptop.service.impl;
 
+import hovanvydut.shoplaptop.controller.v1.api.CategoryController;
 import hovanvydut.shoplaptop.dto.role.CreateRoleDto;
 import hovanvydut.shoplaptop.dto.role.RoleDto;
 import hovanvydut.shoplaptop.dto.role.RoleMapper;
@@ -8,6 +9,8 @@ import hovanvydut.shoplaptop.exception.RoleNotFoundException;
 import hovanvydut.shoplaptop.model.Role;
 import hovanvydut.shoplaptop.repository.RoleRepository;
 import hovanvydut.shoplaptop.service.RoleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -28,6 +31,7 @@ import java.util.function.Function;
 public class RoleServiceImpl implements RoleService {
 
     public RoleRepository roleRepo;
+    private static final Logger LOGGER = LoggerFactory.getLogger(RoleServiceImpl.class);
 
     public RoleServiceImpl(RoleRepository roleRepo) {
         this.roleRepo = roleRepo;

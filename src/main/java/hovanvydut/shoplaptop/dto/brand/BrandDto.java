@@ -3,7 +3,6 @@ package hovanvydut.shoplaptop.dto.brand;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import hovanvydut.shoplaptop.dto.category.CategoryDto;
-import hovanvydut.shoplaptop.model.Category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

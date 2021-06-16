@@ -1,7 +1,10 @@
 package hovanvydut.shoplaptop.service.impl;
 
 import com.github.slugify.Slugify;
-import hovanvydut.shoplaptop.dto.product.*;
+import hovanvydut.shoplaptop.dto.product.CreateProductDto;
+import hovanvydut.shoplaptop.dto.product.ProductDto;
+import hovanvydut.shoplaptop.dto.product.ProductMapper;
+import hovanvydut.shoplaptop.dto.product.UpdateProductDto;
 import hovanvydut.shoplaptop.exception.ProductNotFoundException;
 import hovanvydut.shoplaptop.model.Brand;
 import hovanvydut.shoplaptop.model.Category;
@@ -10,6 +13,8 @@ import hovanvydut.shoplaptop.repository.ProductRepository;
 import hovanvydut.shoplaptop.service.ProductService;
 import hovanvydut.shoplaptop.util.FileUploadUtil;
 import hovanvydut.shoplaptop.util.ProductSaverUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -20,9 +25,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static hovanvydut.shoplaptop.common.constant.PaginationConstant.*;
+import static hovanvydut.shoplaptop.common.constant.PaginationConstant.PRODUCTS_PER_PAGE;
+import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.PRODUCT_UPLOAD_DIR;
 import static hovanvydut.shoplaptop.util.PagingAndSortingUtil.processSort;
-import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.*;
 
 /**
  * @author hovanvydut
@@ -34,6 +39,7 @@ import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.*;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;

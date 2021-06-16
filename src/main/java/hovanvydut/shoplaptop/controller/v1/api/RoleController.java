@@ -8,6 +8,8 @@ import hovanvydut.shoplaptop.controller.v1.request.role.UpdateRoleRequest;
 import hovanvydut.shoplaptop.dto.role.CreateRoleDto;
 import hovanvydut.shoplaptop.dto.role.RoleDto;
 import hovanvydut.shoplaptop.service.RoleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +31,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class RoleController {
 
     private final RoleService roleService;
-
     private final RoleAssembler roleAssembler;
+    private static final Logger LOGGER = LoggerFactory.getLogger(RoleController.class);
 
     public RoleController(RoleService roleService,
                           RoleAssembler roleAssembler) {

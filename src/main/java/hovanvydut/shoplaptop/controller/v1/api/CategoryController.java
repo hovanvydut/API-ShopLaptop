@@ -4,6 +4,8 @@ import hovanvydut.shoplaptop.controller.v1.metadata.category.CategoryAssembler;
 import hovanvydut.shoplaptop.controller.v1.metadata.category.CategoryMetadata;
 import hovanvydut.shoplaptop.dto.category.CategoryDto;
 import hovanvydut.shoplaptop.service.CategoryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
@@ -30,10 +32,9 @@ import static hovanvydut.shoplaptop.common.constant.PaginationConstant.CATEGORIE
 public class CategoryController {
 
     private final CategoryService categoryService;
-
     private final PagedResourcesAssembler<CategoryDto> pagedResourcesAssembler;
-
     private final CategoryAssembler categoryAssembler;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryController.class);
 
     public CategoryController(CategoryService categoryService,
                               PagedResourcesAssembler<CategoryDto> pagedResourcesAssembler,

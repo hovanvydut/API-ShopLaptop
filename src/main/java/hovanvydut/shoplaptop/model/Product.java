@@ -1,7 +1,5 @@
 package hovanvydut.shoplaptop.model;
 
-import hovanvydut.shoplaptop.model.Brand;
-import hovanvydut.shoplaptop.model.Category;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -14,6 +14,8 @@ import hovanvydut.shoplaptop.model.User;
 import hovanvydut.shoplaptop.repository.UserRepository;
 import hovanvydut.shoplaptop.service.UserService;
 import hovanvydut.shoplaptop.util.FileUploadUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -28,6 +30,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.USER_UPLOAD_DIR;
+
 /**
  * @author hovanvydut
  * Created on 5/26/21
@@ -40,6 +44,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepo;
 
     private final PasswordEncoder myBcryptPasswordEncoder;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     public UserServiceImpl(UserRepository userRepo,
                            PasswordEncoder myBcryptPasswordEncoder) {
@@ -132,7 +137,7 @@ public class UserServiceImpl implements UserService {
 
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             user.setPhotos(fileName);
-            String uploadDir = "src/main/resources/static/img/user-photos/" + id;
+            String uploadDir = USER_UPLOAD_DIR + id;
 
             FileUploadUtil.cleanDir(uploadDir);
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);

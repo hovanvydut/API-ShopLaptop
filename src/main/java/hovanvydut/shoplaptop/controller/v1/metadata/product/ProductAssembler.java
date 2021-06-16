@@ -1,6 +1,5 @@
 package hovanvydut.shoplaptop.controller.v1.metadata.product;
 
-import hovanvydut.shoplaptop.controller.v1.api.CategoryController;
 import hovanvydut.shoplaptop.controller.v1.api.ProductController;
 import hovanvydut.shoplaptop.controller.v1.mapper.ProductDtoMapper;
 import hovanvydut.shoplaptop.controller.v1.metadata.brand.BrandAssembler;
@@ -11,8 +10,6 @@ import hovanvydut.shoplaptop.dto.product.ProductDto;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
-
-import java.util.Set;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;

@@ -4,9 +4,9 @@ import hovanvydut.shoplaptop.controller.v1.mapper.BrandDtoMapper;
 import hovanvydut.shoplaptop.controller.v1.metadata.brand.BrandAssembler;
 import hovanvydut.shoplaptop.controller.v1.metadata.brand.BrandMetadata;
 import hovanvydut.shoplaptop.dto.brand.BrandDto;
-import hovanvydut.shoplaptop.dto.brand.BrandMapper;
-import hovanvydut.shoplaptop.dto.category.CategoryDto;
 import hovanvydut.shoplaptop.service.BrandService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Pattern;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author hovanvydut
@@ -31,12 +30,10 @@ import java.util.Set;
 public class BrandController {
 
     private final int BRAND_PER_PAGE = 2;
-
     private final BrandService brandService;
-
     private final PagedResourcesAssembler<BrandDto> pagedResourcesAssembler;
-
     private final BrandAssembler brandAssembler;
+    private static final Logger LOGGER = LoggerFactory.getLogger(BrandController.class);
 
     public BrandController(BrandService brandService,
                            PagedResourcesAssembler<BrandDto> pagedResourcesAssembler,

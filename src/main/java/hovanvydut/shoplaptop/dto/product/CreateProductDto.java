@@ -2,10 +2,6 @@ package hovanvydut.shoplaptop.dto.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import hovanvydut.shoplaptop.model.Brand;
-import hovanvydut.shoplaptop.model.Category;
-import hovanvydut.shoplaptop.model.ProductDetail;
-import hovanvydut.shoplaptop.model.ProductImage;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import java.util.*;
 
 /**
  * @author hovanvydut
