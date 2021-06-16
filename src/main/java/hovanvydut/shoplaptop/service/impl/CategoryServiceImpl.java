@@ -7,7 +7,6 @@ import hovanvydut.shoplaptop.exception.CategoryNotFoundException;
 import hovanvydut.shoplaptop.exception.ImageSizeLimitExceededException;
 import hovanvydut.shoplaptop.model.Category;
 import hovanvydut.shoplaptop.repository.CategoryRepository;
-import hovanvydut.shoplaptop.service.BrandService;
 import hovanvydut.shoplaptop.service.CategoryService;
 import hovanvydut.shoplaptop.util.FileUploadUtil;
 import org.slf4j.Logger;

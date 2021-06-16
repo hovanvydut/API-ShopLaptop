@@ -9,7 +9,6 @@ import hovanvydut.shoplaptop.dto.user.UserDto;
 import hovanvydut.shoplaptop.dto.user.UserMapper;
 import hovanvydut.shoplaptop.exception.ImageSizeLimitExceededException;
 import hovanvydut.shoplaptop.exception.UserNotFoundException;
-import hovanvydut.shoplaptop.model.Category;
 import hovanvydut.shoplaptop.model.Role;
 import hovanvydut.shoplaptop.model.User;
 import hovanvydut.shoplaptop.repository.UserRepository;
@@ -27,12 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import static hovanvydut.shoplaptop.common.constant.PaginationConstant.CATEGORIES_PER_PAGE;
 import static hovanvydut.shoplaptop.common.constant.PaginationConstant.USERS_PER_PAGE;
 import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.USER_UPLOAD_DIR;
 import static hovanvydut.shoplaptop.util.PagingAndSortingUtil.processSort;
@@ -78,9 +74,6 @@ public class UserServiceImpl implements UserService {
         } else {
             pageUser = this.userRepo.search(keyword, pageable);
         }
-
-        List<UserDto> list = new ArrayList<>();
-        Iterator<User> it = this.userRepo.findAll().iterator();
 
         List<User> userList = pageUser.getContent();
         List<UserDto> userDtos = UserMapper.MAPPER.userToUserDto(userList);

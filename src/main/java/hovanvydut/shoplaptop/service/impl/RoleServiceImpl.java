@@ -1,6 +1,5 @@
 package hovanvydut.shoplaptop.service.impl;
 
-import hovanvydut.shoplaptop.controller.v1.api.CategoryController;
 import hovanvydut.shoplaptop.dto.role.CreateRoleDto;
 import hovanvydut.shoplaptop.dto.role.RoleDto;
 import hovanvydut.shoplaptop.dto.role.RoleMapper;
@@ -11,15 +10,17 @@ import hovanvydut.shoplaptop.repository.RoleRepository;
 import hovanvydut.shoplaptop.service.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Function;
+
+import static hovanvydut.shoplaptop.common.constant.PaginationConstant.USERS_PER_PAGE;
+import static hovanvydut.shoplaptop.util.PagingAndSortingUtil.processSort;
 
 /**
  * @author hovanvydut
@@ -39,16 +40,31 @@ public class RoleServiceImpl implements RoleService {
 
 
     @Override
-    public Set<RoleDto> getAllRole() {
-        Iterator<Role> it = this.roleRepo.findAll().iterator();
-        Set<RoleDto> list = new HashSet<>();
-
-        while (it.hasNext()) {
-            Role role = it.next();
-            list.add(RoleMapper.MAPPER.fromRole(role));
+    public Page<RoleDto> getAllRole(int page, int size, String keyword, String[] sort) {
+        // set default value for
+        if (page <= 0) {
+            page = 1;
         }
 
-        return list;
+        if (size <= 0) {
+            size = USERS_PER_PAGE;
+        }
+
+        Sort sortObj = processSort(sort);
+        Pageable pageable = PageRequest.of(page - 1, size, sortObj);
+
+        Page<Role> pageRole = null;
+
+        if (keyword != null && keyword.isEmpty()) {
+            pageRole = this.roleRepo.findAll(pageable);
+        } else {
+            pageRole = this.roleRepo.search(keyword, pageable);
+        }
+
+        List<Role> userList = pageRole.getContent();
+        List<RoleDto> roleDtos = RoleMapper.MAPPER.fromRole(userList);
+
+        return new PageImpl<>(roleDtos, pageable, pageRole.getTotalElements());
     }
 
     @Override

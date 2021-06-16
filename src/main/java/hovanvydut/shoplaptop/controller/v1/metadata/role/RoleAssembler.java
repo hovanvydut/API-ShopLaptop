@@ -31,7 +31,7 @@ public class RoleAssembler extends RepresentationModelAssemblerSupport<RoleDto, 
         RoleMetadata roleMetadata = RoleDtoMapper.MAPPER.fromRoleDto(entity);
         roleMetadata.add(
                 linkTo(methodOn(RoleController.class).getOne(entity.getId())).withSelfRel(),
-                linkTo(methodOn(RoleController.class).getAllRole()).withRel("roles"));
+                linkTo(methodOn(RoleController.class).getAllRole(null, null, null, null)).withRel("roles"));
         return roleMetadata;
     }
 
@@ -46,6 +46,6 @@ public class RoleAssembler extends RepresentationModelAssemblerSupport<RoleDto, 
         }
 
         return CollectionModel.of(list,
-                linkTo(methodOn(RoleController.class).getAllRole()).withSelfRel());
+                linkTo(methodOn(RoleController.class).getAllRole(null, null, null, null)).withSelfRel());
     }
 }

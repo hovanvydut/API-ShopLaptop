@@ -3,9 +3,9 @@ package hovanvydut.shoplaptop.service;
 import hovanvydut.shoplaptop.dto.role.CreateRoleDto;
 import hovanvydut.shoplaptop.dto.role.RoleDto;
 import hovanvydut.shoplaptop.dto.role.UpdateRoleDto;
+import org.springframework.data.domain.Page;
 
 import javax.validation.Valid;
-import java.util.Set;
 
 /**
  * @author hovanvydut
@@ -14,7 +14,7 @@ import java.util.Set;
 
 public interface RoleService {
 
-    public Set<RoleDto> getAllRole();
+    public Page<RoleDto> getAllRole(int page, int size, String keyword, String[] sort);
 
     public RoleDto getRoleById(int id);
 
