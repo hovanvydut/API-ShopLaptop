@@ -1,15 +1,12 @@
 package hovanvydut.shoplaptop.util;
 
 import hovanvydut.shoplaptop.model.Product;
-import hovanvydut.shoplaptop.model.ProductImage;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
-import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.*;
+import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.PRODUCT_UPLOAD_DIR;
 
 /**
  * @author hovanvydut

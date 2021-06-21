@@ -3,7 +3,6 @@ package hovanvydut.shoplaptop.security;
 import hovanvydut.shoplaptop.exception.UserNotFoundException;
 import hovanvydut.shoplaptop.model.User;
 import hovanvydut.shoplaptop.repository.UserRepository;
-import hovanvydut.shoplaptop.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

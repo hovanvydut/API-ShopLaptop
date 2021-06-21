@@ -10,13 +10,14 @@ import hovanvydut.shoplaptop.model.Category;
 import hovanvydut.shoplaptop.repository.BrandRepository;
 import hovanvydut.shoplaptop.service.BrandService;
 import hovanvydut.shoplaptop.util.FileUploadUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.IOException;
 import java.util.HashSet;
@@ -24,6 +25,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static hovanvydut.shoplaptop.common.constant.PaginationConstant.BRAND_PER_PAGE;
+import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.BRAND_IMAGE_MAX_SIZE;
+import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.BRAND_UPLOAD_DIR;
 import static hovanvydut.shoplaptop.util.PagingAndSortingUtil.processSort;
 
 /**
@@ -35,12 +39,8 @@ import static hovanvydut.shoplaptop.util.PagingAndSortingUtil.processSort;
 @Service
 public class BrandServiceImpl implements BrandService {
 
-    private static final int MAX_SIZE = 500 * 1024;
-    private static final int CATEGORIES_PER_PAGE = 2;
-    private static final String baseUploadDir = "src/main/resources/static/img/brand-logos/";
-
-
     private final BrandRepository brandRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(BrandServiceImpl.class);
 
     public BrandServiceImpl(BrandRepository brandRepository) {
         this.brandRepository = brandRepository;
@@ -55,7 +55,7 @@ public class BrandServiceImpl implements BrandService {
         }
 
         if (size <= 0) {
-            size = CATEGORIES_PER_PAGE;
+            size = BRAND_PER_PAGE;
         }
 
         Sort sortObj = processSort(sort);
@@ -111,7 +111,7 @@ public class BrandServiceImpl implements BrandService {
             brand.setLogo(imageName);
             Brand savedBrand = this.brandRepository.save(brand);
 
-            String uploadDir = baseUploadDir + savedBrand.getId();
+            String uploadDir = BRAND_UPLOAD_DIR + savedBrand.getId();
 
             try {
                 FileUploadUtil.saveFile(uploadDir, imageName, logo);
@@ -158,7 +158,7 @@ public class BrandServiceImpl implements BrandService {
             brand.setLogo(imageName);
             Brand savedBrand = this.brandRepository.save(brand);
 
-            String uploadDir = baseUploadDir + savedBrand.getId();
+            String uploadDir = BRAND_UPLOAD_DIR + savedBrand.getId();
 
             try {
                 FileUploadUtil.saveFile(uploadDir, imageName, image);
@@ -195,8 +195,8 @@ public class BrandServiceImpl implements BrandService {
     }
 
     private void checkSizeImage(MultipartFile file) {
-        if (file.getSize() > MAX_SIZE) {
-            throw new ImageSizeLimitExceededException("File size is greater than " + MAX_SIZE);
+        if (file.getSize() > BRAND_IMAGE_MAX_SIZE) {
+            throw new ImageSizeLimitExceededException("File size is greater than " + BRAND_IMAGE_MAX_SIZE);
         }
     }
 }

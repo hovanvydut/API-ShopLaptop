@@ -9,6 +9,8 @@ import hovanvydut.shoplaptop.dto.product.CreateProductDto;
 import hovanvydut.shoplaptop.dto.product.ProductDto;
 import hovanvydut.shoplaptop.dto.product.UpdateProductDto;
 import hovanvydut.shoplaptop.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
@@ -33,10 +35,9 @@ import static hovanvydut.shoplaptop.common.constant.PaginationConstant.PRODUCTS_
 public class ProductController {
 
     private final ProductService productService;
-
     private final PagedResourcesAssembler<ProductDto> pagedResourcesAssembler;
-
     private final ProductAssembler productAssembler;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 
     public ProductController(ProductService productService,
                              PagedResourcesAssembler pagedResourcesAssembler,

@@ -5,12 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author hovanvydut
  * Created on 5/31/21
  */
 
+@Repository
 public interface CategoryRepository extends PagingAndSortingRepository<Category, Integer> {
 
     Category findByName(String name);

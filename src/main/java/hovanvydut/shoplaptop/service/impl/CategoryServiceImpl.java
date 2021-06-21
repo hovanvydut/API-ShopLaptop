@@ -9,6 +9,8 @@ import hovanvydut.shoplaptop.model.Category;
 import hovanvydut.shoplaptop.repository.CategoryRepository;
 import hovanvydut.shoplaptop.service.CategoryService;
 import hovanvydut.shoplaptop.util.FileUploadUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -22,6 +24,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static hovanvydut.shoplaptop.common.constant.PaginationConstant.CATEGORIES_PER_PAGE;
+import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.CATEGORY_IMAGE_MAX_SIZE;
+import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.CATEGORY_UPLOAD_DIR;
 import static hovanvydut.shoplaptop.util.PagingAndSortingUtil.processSort;
 
 /**
@@ -34,6 +38,7 @@ import static hovanvydut.shoplaptop.util.PagingAndSortingUtil.processSort;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
@@ -112,12 +117,12 @@ public class CategoryServiceImpl implements CategoryService {
 
         if (imageOpt.isPresent()) {
             MultipartFile image = imageOpt.get();
-            final int MAX_SIZE = 500 * 1024;
-            final String baseUploadDir = "src/main/resources/static/img/category-images/";
+
+
 
             // image size is greater than 500kb ==> error
-            if (image.getSize() > MAX_SIZE) {
-                throw new ImageSizeLimitExceededException("File size is greater than " + MAX_SIZE);
+            if (image.getSize() > CATEGORY_IMAGE_MAX_SIZE) {
+                throw new ImageSizeLimitExceededException("File size is greater than " + CATEGORY_IMAGE_MAX_SIZE);
             }
 
             // create new category and save image
@@ -126,7 +131,7 @@ public class CategoryServiceImpl implements CategoryService {
             category.setImage(imageName);
             Category savedCategory = this.categoryRepository.save(category);
 
-            String uploadDir = baseUploadDir + savedCategory.getId();
+            String uploadDir = CATEGORY_UPLOAD_DIR + savedCategory.getId();
 
             try {
                 FileUploadUtil.saveFile(uploadDir, imageName, image);
@@ -165,13 +170,13 @@ public class CategoryServiceImpl implements CategoryService {
 
         if (imageOpt.isPresent()) {
             MultipartFile image = imageOpt.get();
-            final int MAX_SIZE = 500 * 1024;
+
             final String baseUploadDir = "src/main/resources/static/img/category-images/";
             String uploadDir = baseUploadDir + currentCategory.getId();
 
             // image size is greater than 500kb ==> error
-            if (image.getSize() > MAX_SIZE) {
-                throw new ImageSizeLimitExceededException("File size is greater than " + MAX_SIZE);
+            if (image.getSize() > CATEGORY_IMAGE_MAX_SIZE) {
+                throw new ImageSizeLimitExceededException("File size is greater than " + CATEGORY_IMAGE_MAX_SIZE);
             }
 
             // clear all old image, upload file and then update category

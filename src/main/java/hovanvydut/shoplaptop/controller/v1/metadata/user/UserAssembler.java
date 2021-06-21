@@ -31,7 +31,7 @@ public class UserAssembler extends RepresentationModelAssemblerSupport<UserDto, 
         UserMetadata userMetadata = UserDtoMapper.MAPPER.fromUserDto(entity);
 
         userMetadata.add(linkTo(methodOn(UserController.class).getOne(entity.getId())).withSelfRel(),
-                linkTo(methodOn(UserController.class).getAllUser()).withRel("users"));
+                linkTo(methodOn(UserController.class).getAllUser(null, null, null, null)).withRel("users"));
 
         return userMetadata;
     }
@@ -45,6 +45,6 @@ public class UserAssembler extends RepresentationModelAssemblerSupport<UserDto, 
             list.add(toModel(it.next()));
         }
         return CollectionModel.of(list,
-                linkTo(methodOn(UserController.class).getAllUser()).withSelfRel());
+                linkTo(methodOn(UserController.class).getAllUser(null, null, null, null)).withSelfRel());
     }
 }

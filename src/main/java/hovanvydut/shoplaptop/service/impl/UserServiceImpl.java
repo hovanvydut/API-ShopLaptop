@@ -14,6 +14,9 @@ import hovanvydut.shoplaptop.model.User;
 import hovanvydut.shoplaptop.repository.UserRepository;
 import hovanvydut.shoplaptop.service.UserService;
 import hovanvydut.shoplaptop.util.FileUploadUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -23,10 +26,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+
+import static hovanvydut.shoplaptop.common.constant.PaginationConstant.USERS_PER_PAGE;
+import static hovanvydut.shoplaptop.common.constant.UploadImageConstant.USER_UPLOAD_DIR;
+import static hovanvydut.shoplaptop.util.PagingAndSortingUtil.processSort;
 
 /**
  * @author hovanvydut
@@ -38,8 +43,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepo;
-
     private final PasswordEncoder myBcryptPasswordEncoder;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     public UserServiceImpl(UserRepository userRepo,
                            PasswordEncoder myBcryptPasswordEncoder) {
@@ -48,15 +53,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUser() {
-        List<UserDto> list = new ArrayList<>();
-        Iterator<User> it = this.userRepo.findAll().iterator();
+    public Page<UserDto> getAllUser(int page, int size, String keyword, String[] sort) {
 
-        while (it.hasNext()) {
-            list.add(UserMapper.MAPPER.userToUserDto(it.next()));
+        // set default value for
+        if (page <= 0) {
+            page = 1;
         }
 
-        return list;
+        if (size <= 0) {
+            size = USERS_PER_PAGE;
+        }
+
+        Sort sortObj = processSort(sort);
+        Pageable pageable = PageRequest.of(page - 1, size, sortObj);
+
+        Page<User> pageUser = null;
+
+        if (keyword != null && keyword.isEmpty()) {
+            pageUser = this.userRepo.findAll(pageable);
+        } else {
+            pageUser = this.userRepo.search(keyword, pageable);
+        }
+
+        List<User> userList = pageUser.getContent();
+        List<UserDto> userDtos = UserMapper.MAPPER.userToUserDto(userList);
+
+        return new PageImpl<>(userDtos, pageable, pageUser.getTotalElements());
     }
 
     @Override
@@ -132,7 +154,7 @@ public class UserServiceImpl implements UserService {
 
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             user.setPhotos(fileName);
-            String uploadDir = "src/main/resources/static/img/user-photos/" + id;
+            String uploadDir = USER_UPLOAD_DIR + id;
 
             FileUploadUtil.cleanDir(uploadDir);
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);

@@ -2,7 +2,6 @@ package hovanvydut.shoplaptop.controller.v1.metadata.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import hovanvydut.shoplaptop.dto.product.ProductImageDto;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.hateoas.RepresentationModel;
