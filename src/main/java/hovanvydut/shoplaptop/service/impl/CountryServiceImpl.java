@@ -61,8 +61,12 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public CountryDto updateCountryDto(@Valid UpdateCountryDto updateCountryDto) {
-        Country country = CountryMapper.MAPPER.to(updateCountryDto);
+    public CountryDto updateCountryDto(int countryId, @Valid UpdateCountryDto updateCountryDto) {
+        Optional<Country> countryOpt = this.countryRepository.findById(countryId);
+        Country country = countryOpt.orElseThrow(() -> new CountryNotFoundException("Country id = " + countryId + " not found."));
+
+        country.setName(updateCountryDto.getName()).setCode(updateCountryDto.getCode());
+
         Country savedCountry = this.countryRepository.save(country);
 
         return CountryMapper.MAPPER.from(savedCountry);
@@ -105,6 +109,7 @@ public class CountryServiceImpl implements CountryService {
 
         stateOpt.ifPresent(stateElm -> {
             country.getStates().remove(stateElm);
+            this.countryRepository.save(country);
         });
     }
 }

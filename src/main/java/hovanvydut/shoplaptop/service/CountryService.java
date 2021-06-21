@@ -25,7 +25,7 @@ public interface CountryService {
 
     CountryDto createNewCountry(@Valid CreateNewCountryDto createNewCountryDto);
 
-    CountryDto updateCountryDto(@Valid UpdateCountryDto updateCountryDto);
+    CountryDto updateCountryDto(int countryId, @Valid UpdateCountryDto updateCountryDto);
 
     void deleteOne(int id);
 

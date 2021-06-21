@@ -24,9 +24,6 @@ import javax.validation.constraints.Pattern;
 @ToString
 public class UpdateCountryDto {
 
-    @Min(1)
-    private int id;
-
     @NotBlank
     @Pattern(regexp = "[a-zA-Z]", message = "Must be included at least character a-z, A-Z")
     private String name;
