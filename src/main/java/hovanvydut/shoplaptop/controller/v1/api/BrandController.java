@@ -25,7 +25,7 @@ import java.util.Optional;
  */
 
 @Validated
-@Controller
+@RestController
 @RequestMapping("/api/v1/brands")
 public class BrandController {
 

@@ -5,21 +5,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * @author hovanvydut
- * Created on 6/1/21
+ * Created on 6/21/21
  */
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class CategoryNotFoundException extends ResourceNotFound{
-
-    public CategoryNotFoundException() {
+public class CountryNotFoundException extends ResourceNotFound {
+    public CountryNotFoundException() {
         super("Category not found");
     }
 
-    public CategoryNotFoundException(String msg) {
+    public CountryNotFoundException(String msg) {
         super(msg);
     }
 
-    public CategoryNotFoundException(String msg, Throwable cause) {
+    public CountryNotFoundException(String msg, Throwable cause) {
         super(msg, cause);
     }
 }
