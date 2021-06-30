@@ -4,11 +4,16 @@ services:
   shoplaptop-api:
     build:
       context: .
+    restart: always
     environment:
       - DB_HOST=mysqldb
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/shoplaptop2
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/shoplaptop2?autoReconnect=true&useSSL=false&maxReconnects=15&failOverReadOnly=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=123123
     ports:
       - 4001:4000
+#    volumes:
+#      - /home/hovanvydut/Temporary/images:/home/shoplaptop/src/main/resources/static/img
     networks:
       - shoplaptopapi-network
     depends_on:

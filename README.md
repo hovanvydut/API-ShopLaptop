@@ -5,9 +5,13 @@ Welcome to my page 😎. I'm hoping you find anything interesting you in my repo
 ## GLIMPSE THE PROJECT
 
 ## ⚙️ INSTALLATION
-See Swagger API docs: http://localhost:4000/swagger-ui/index.html
+See Swagger API docs: http://localhost:4000/swagger-ui/index.html \
+Template static image: http://localhost:4000/assets/static/img/user-photos/8/8.png
 ***
-
+```zhs
+mvn clean package spring-boot:repackage
+java -jar target/ShopLaptop-0.0.1-SNAPSHOT.jar 
+```
 
 ## 🎉 FEATURES
 
